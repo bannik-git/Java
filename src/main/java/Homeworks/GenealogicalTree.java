@@ -35,6 +35,7 @@ public class GenealogicalTree {
     }
 
 }
+
 class People {
     private String name;
     private Gender gender;
