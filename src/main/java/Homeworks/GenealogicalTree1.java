@@ -3,27 +3,27 @@ package Homeworks;
 import java.util.ArrayList;
 
 
-public class GenealogicalTree {
+public class GenealogicalTree1 {
     public static void main(String[] args) {
 
-        People alena = new People("Alena", Gender.femal); // мать
-        People jenya = new People("Jenya", Gender.male); // отец
-        People kostya = new People("Kostya", Gender.male); // сын
+        People alena = new People("Alena", Gender.FEMALE); // мать
+        People jenya = new People("Jenya", Gender.MALE); // отец
+        People kostya = new People("Kostya", Gender.MALE); // сын
 
-        People alex = new People("Alex", Gender.male); // отец Евгения
-        People alexandra = new People("Alexandra", Gender.femal); // мать Евгения
-        People sveta = new People("Sveta", Gender.femal); // Мать Alena
-        People nik = new People("Nik", Gender.male); // Отец Alena
+        People alex = new People("Alex", Gender.MALE); // отец Евгения
+        People alexandra = new People("Alexandra", Gender.FEMALE); // мать Евгения
+        People sveta = new People("Sveta", Gender.FEMALE); // Мать Alena
+        People nik = new People("Nik", Gender.MALE); // Отец Alena
 
         FamilyTree sidorov = new FamilyTree();
-        sidorov.add(alena, Relation.mother, kostya);
-        sidorov.add(jenya, Relation.father, kostya);
+        sidorov.add(alena, Relation.MOTHER, kostya);
+        sidorov.add(jenya, Relation.FATHER, kostya);
 
-        sidorov.add(alex, Relation.father, jenya);
-        sidorov.add(alexandra, Relation.mother, jenya);
+        sidorov.add(alex, Relation.FATHER, jenya);
+        sidorov.add(alexandra, Relation.MOTHER, jenya);
 
-        sidorov.add(sveta, Relation.mother, alena);
-        sidorov.add(nik, Relation.father, alena);
+        sidorov.add(sveta, Relation.MOTHER, alena);
+        sidorov.add(nik, Relation.FATHER, alena);
         Research a = new Research(sidorov);
 //        a.printAllChildren();
 //        a.printAllWeman();
@@ -56,14 +56,14 @@ class People {
 
 
 enum Gender {
-    male,
-    femal;
+    MALE,
+    FEMALE;
 }
 enum Relation {
-    mother,
-    father,
-    son,
-    doughter;
+    MOTHER,
+    FATHER,
+    SON,
+    DOUGHTER;
 }
 
 class FamilyTies { // класс для хранения данных
@@ -108,7 +108,7 @@ class FamilyTree implements Base {
     }
 
     public void add(People p1, Relation re, People p2) {
-        if (re == Relation.father || re == Relation.mother) {
+        if (re == Relation.FATHER || re == Relation.MOTHER) {
             tree.add(new FamilyTies(p1, re, p2));
             addChildren(p1, re, p2);
         } else {
@@ -118,18 +118,18 @@ class FamilyTree implements Base {
     }
 
     private void addChildren(People p1, Relation re, People p2) {
-        if(p2.getGender() == Gender.male) {
-            tree.add(new FamilyTies(p2, Relation.son, p1));
+        if(p2.getGender() == Gender.MALE) {
+            tree.add(new FamilyTies(p2, Relation.SON, p1));
         } else {
-            tree.add(new FamilyTies(p2, Relation.doughter, p1));
+            tree.add(new FamilyTies(p2, Relation.DOUGHTER, p1));
         }
     }
 
     private void addParent(People p1, Relation re, People p2) {
-        if (p1.getGender() == Gender.male) {
-            tree.add(new FamilyTies(p2, Relation.father, p1));
+        if (p1.getGender() == Gender.MALE) {
+            tree.add(new FamilyTies(p2, Relation.FATHER, p1));
         } else {
-            tree.add(new FamilyTies(p2, Relation.mother, p1));
+            tree.add(new FamilyTies(p2, Relation.MOTHER, p1));
         }
     }
 }
@@ -167,7 +167,7 @@ class Research {
         ArrayList<String> parents = new ArrayList<>();
         for (int i = 0; i < base.size();i++) {
             Relation re = base.get(i).getRe();
-            if (re == Relation.father || re == Relation.mother) {
+            if (re == Relation.FATHER || re == Relation.MOTHER) {
                 parents.add(base.get(i).getPeople(1).getName()+ " " + re.toString() + " " + base.get(i).getPeople(2).getName());
             }
         }
@@ -175,28 +175,28 @@ class Research {
     }
 
     public void printAllMale() {
-        ArrayList<String> men = getMenOrWeman(Gender.male);
+        ArrayList<String> men = getMenOrWeman(Gender.MALE);
         for (String male: men) {
             System.out.println(male);
         }
     }
 
     public void printAllWeman() {
-        ArrayList<String> weman = getMenOrWeman(Gender.femal);
+        ArrayList<String> weman = getMenOrWeman(Gender.FEMALE);
         for (String woman: weman) {
             System.out.println(woman);
         }
     }
 
     public void printAllFathersAndChildren () {
-        ArrayList<String> fathersAndSons = getAllFamilyTies(Relation.father);
+        ArrayList<String> fathersAndSons = getAllFamilyTies(Relation.FATHER);
         for (String fatherAndSon: fathersAndSons) {
             System.out.println(fatherAndSon);
         }
     }
 
     public void printAllMotherAndChildren () {
-        ArrayList<String> mothersAndSons = getAllFamilyTies(Relation.mother);
+        ArrayList<String> mothersAndSons = getAllFamilyTies(Relation.MOTHER);
         for (String fatherAndSon: mothersAndSons) {
             System.out.println(fatherAndSon);
         }
@@ -212,10 +212,10 @@ class Research {
     public ArrayList<String> printAllTree(People start) {
         Relation re;
         ArrayList<String> relation = new ArrayList<>();
-        if (start.getGender() == Gender.male) {
-            re = Relation.son;
+        if (start.getGender() == Gender.MALE) {
+            re = Relation.SON;
         } else {
-            re = Relation.doughter;
+            re = Relation.DOUGHTER;
         }
         for (int i = 0; i < base.size(); i++) {
             if (base.get(i).getPeople(1) == start && base.get(i).getRe() == re) {
