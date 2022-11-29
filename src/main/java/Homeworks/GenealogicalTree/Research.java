@@ -36,7 +36,7 @@ class Research {
         for (int i = 0; i < base.size();i++) {
             Relation re = base.get(i).getRe();
             if (re == Relation.FATHER || re == Relation.MOTHER) {
-                parents.add(base.get(i).getPeople(1).getName()+ " " + re.toString() + " " + base.get(i).getPeople(2).getName());
+                parents.add(base.get(i).getPeople(1).getName()+ " " + re + " " + base.get(i).getPeople(2).getName());
             }
         }
         return parents;
